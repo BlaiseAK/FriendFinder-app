@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
-        <!-- jquery -->
+    <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
@@ -22,6 +22,14 @@
 </head>
 
 <body>
+
+    <style>
+        .container {
+            align-content: center;
+            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
     <div class="container">
         <div class="jumbotron">
             <h1> Fun Buddy! </h1>
@@ -179,11 +187,17 @@
                     <option value="5">Strongly agree</option>
                 </select>
             </div>
+            <br>
+            <br>
 
             <button type="submit" class="btn btn-primary submit">Submit</button>
         </form>
+        <br>
+        <br>
         <div>
-            <h2>Your Matches name is: <span id="matchName"></span></h2>
+            <h2>Your Matches name is:
+                <span id="matchName"></span>
+            </h2>
         </div>
 
 
@@ -210,25 +224,27 @@
                 // Here we grab the form elements
                 var newBuddy = {
                     name: $("#name").val().trim(),
-                    scores: [$("#question1").val().trim(), $("#question2").val().trim(), $("#question3").val().trim()]
+                    scores: [
+                        $("#question1").val().trim(),
+                        $("#question2").val().trim(),
+                        $("#question3").val().trim(),
+                        $("#question4").val().trim(),
+                        $("#question5").val().trim(),
+                        $("#question6").val().trim(),
+                        $("#question7").val().trim(),
+                        $("#question8").val().trim(),
+                        $("#question9").val().trim(),
+                        $("#question10").val().trim()
+                    ]
                 };
 
                 console.log(newBuddy);
 
-                // This line is the magic. It"s very similar to the standard ajax function we used.
-                // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
-                // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-                // depending on if a tables is available or not.
+                $.post("/api/funbuddies", newBuddy).done(function (data) {
 
+                    $("#matchName").text(data.name)
 
-
-                $.post("/api/funbuddies", newBuddy, function (data) {
-
-                        $("#matchName").text(data.name)
-
-                                                
-
-                    });
+                });
             }
             else {
                 alert("Please finish filling out the rest of the form.")
