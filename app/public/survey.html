@@ -177,6 +177,10 @@
 
             <button type="submit" class="btn btn-primary submit">Submit</button>
         </form>
+        <div>
+            <h2>Your Matches name is: <span id="matchName"></span></h2>
+        </div>
+
 
     </div>
 
@@ -216,21 +220,9 @@
                 $.post("/api/funbuddies", newBuddy,
                     function (data) {
 
-                        // If a table is available... tell user they are booked.
-                        if (data) {
-                            alert("Sweet! lets find you a buddy to have fun with!");
-                        }
+                        $("#matchName").text(data.name)
 
-                        // If a table is available... tell user they on the waiting list.
-                        else {
-                            alert("Ug");
-                        }
-
-                        // Clear the form when submitting
-                        $("#reserve-name").val("");
-                        $("#reserve-phone").val("");
-                        $("#reserve-email").val("");
-                        $("#reserve-unique-id").val("");
+                                                
 
                     });
             }
