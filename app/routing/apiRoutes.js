@@ -11,7 +11,7 @@ module.exports = function(app) {
 
     app.post("/api/funbuddies", function(req, res){
         res.push(req.body);
-        res.json(true)
+
          
     })
 }

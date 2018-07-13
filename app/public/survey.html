@@ -37,7 +37,7 @@
         <form>
             <div class="form-group">
                 <label for="inputName">Your name is:</label>
-                <input class="form-control" type="text" placeholder="John or Jane">
+                <input class="form-control" id="name" type="text" placeholder="John or Jane">
             </div>
             <hr>
             <div class="form-group">
@@ -175,13 +175,71 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary submit">Submit</button>
         </form>
 
     </div>
 
 
+    <script type="text/javascript">
 
+        $(".submit").on("click", function (event) {
+            event.preventDefault();
+
+            function validateForm() {
+                var isValid = true;
+                $(".form-control").each(function () {
+
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+
+                });
+                return isValid;
+            }
+            if (validateForm()) {
+                // Here we grab the form elements
+                var newBuddy = {
+                    name: $("#name").val().trim(),
+                    scores: [$("#question1").val().trim(), $("#question2").val().trim(), $("#question3").val().trim()]
+                };
+
+                console.log(newBuddy);
+
+                // This line is the magic. It"s very similar to the standard ajax function we used.
+                // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+                // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+                // depending on if a tables is available or not.
+
+
+
+                $.post("/api/funbuddies", newBuddy,
+                    function (data) {
+
+                        // If a table is available... tell user they are booked.
+                        if (data) {
+                            alert("Sweet! lets find you a buddy to have fun with!");
+                        }
+
+                        // If a table is available... tell user they on the waiting list.
+                        else {
+                            alert("Ug");
+                        }
+
+                        // Clear the form when submitting
+                        $("#reserve-name").val("");
+                        $("#reserve-phone").val("");
+                        $("#reserve-email").val("");
+                        $("#reserve-unique-id").val("");
+
+                    });
+            }
+            else {
+                alert("Please finish filling out the rest of the form.")
+            }
+        });
+
+    </script>
 
 
 
